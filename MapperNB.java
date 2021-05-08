@@ -24,17 +24,23 @@ public class MapperNB {
 	    	final String delimeter = ", ";
 	    	Text yes = new Text("yes");
 	    	Text no = new Text("no");
+	    	Text onenum = new Text("1");
+	    	Text zero = new Text("0");
 	   StringTokenizer itr = new StringTokenizer(value.toString(),delimeter);
 	   while (itr.hasMoreTokens()) {
+			   //word.set(itr.nextToken());
 			   word.set(itr.nextToken());
-			   if(word.equals(yes) || word.equals(no))
+			   if(word.equals(onenum) || word.equals(zero))
 			   {
-				   context.write(word, one);
+				   context.write(word,one);
+			   }else if(word.equals(yes) || word.equals(no))
+				   {
+					   context.write(word, one);
 			   }else {
 				   continue;
 			   }
-	   }
-	 }
+	   		}
+	    }
 	}
 
 		public static class IntSumReducer
@@ -54,7 +60,7 @@ public class MapperNB {
 	 }
 	}
 	public static void main(String[] args) throws Exception {
-		org.apache.log4j.BasicConfigurator.configure();
+	 org.apache.log4j.BasicConfigurator.configure();
 	 Configuration conf = new Configuration();
 	 Job job = Job.getInstance(conf, "word count");
 	 job.setJarByClass(MapperNB.class);
@@ -67,6 +73,4 @@ public class MapperNB {
 	 FileOutputFormat.setOutputPath(job, new Path(args[1]));
 	 System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}
-		
-	
 }
