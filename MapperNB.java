@@ -16,8 +16,12 @@ public class MapperNB {
 		public static class TokenizerMapper
 	    extends Mapper<Object, Text, Text, IntWritable>{
 		private final static IntWritable one = new IntWritable(1);
+		//one is used as the value output for the mapper
+		//initialized to one it will add this comparable value for the 
+		//reducer
 	    private Text word = new Text();
-
+	    //this word will be the key for the mapper output 
+	    //it is the value that is in each cell after the header(1/0)
 	    public void map(Object key, Text value, Context context
 	                 ) throws IOException, InterruptedException {
 	    	//object key = word , text value = count
@@ -26,6 +30,10 @@ public class MapperNB {
 	    	Text no = new Text("no");
 	    	Text onenum = new Text("1");
 	    	Text zero = new Text("0");
+	    	//All of these Text variables are used for comparing the token
+	    	//since we converted our tables severity_severe to yes and no,
+	    	//this was our makeshift way of separating the parsed values from
+	    	//our csv from column to column
 	   StringTokenizer itr = new StringTokenizer(value.toString(),delimeter);
 	   while (itr.hasMoreTokens()) {
 			   //word.set(itr.nextToken());
@@ -33,11 +41,16 @@ public class MapperNB {
 			   if(word.equals(onenum) || word.equals(zero))
 			   {
 				   context.write(word,one);
+				   //if the value is the number one or zero it writes to
+				   //the context which in our case is the output file
+				   //part-r-00000
 			   }else if(word.equals(yes) || word.equals(no))
 				   {
 					   context.write(word, one);
 			   }else {
 				   continue;
+				   //continue here was added so the headers werent added
+				   //to the output
 			   }
 	   		}
 	    }
