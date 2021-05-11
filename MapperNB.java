@@ -11,7 +11,8 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-
+//CPS 493 Final Project Code
+//Authors: Cameron Dyas, Reshma Luke, Elijah Bloom
 public class MapperNB {
 		public static class TokenizerMapper
 	    extends Mapper<Object, Text, Text, IntWritable>{
